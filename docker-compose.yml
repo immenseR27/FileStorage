@@ -1,0 +1,22 @@
+
+services:
+
+  db:
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 12345
+      POSTGRES_DB: file_storage
+    ports:
+      - "5432:5432"
+  app:
+    image: immenser/filestorage-app:1.0
+    restart: always
+#    build: .
+    ports:
+      - "8080:8080"
+    depends_on:
+      - db
+    environment:
+      SPRING_DATASOURCE_URL: 'jdbc:postgresql://db:5432/file_storage'
